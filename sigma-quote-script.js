@@ -4,6 +4,127 @@ const financialQuotes = [
         text: "The stock market is filled with individuals who know the price of everything, but the value of nothing.",
         author: "Philip Fisher"
     },
+    {
+        text: "Rule No. 1: Never lose money. Rule No. 2: Never forget Rule No. 1.",
+        author: "Warren Buffett"
+    },
+    {
+        text: "The biggest risk is not taking any risk. In a world that's changing quickly, the only strategy that is guaranteed to fail is not taking risks.",
+        author: "Mark Zuckerberg"
+    },
+    {
+        text: "Do not save what is left after spending, but spend what is left after saving.",
+        author: "Warren Buffett"
+    },
+    {
+        text: "It's not how much money you make, but how much money you keep, how hard it works for you, and how many generations you keep it for.",
+        author: "Robert Kiyosaki"
+    },
+    {
+        text: "The secret to getting ahead is getting started.",
+        author: "Mark Twain"
+    },
+    {
+        text: "Opportunities don't happen. You create them.",
+        author: "Chris Grosser"
+    },
+    {
+        text: "Don't watch the clock; do what it does. Keep going.",
+        author: "Sam Levenson"
+    },
+    {
+        text: "The way to get started is to quit talking and begin doing.",
+        author: "Walt Disney"
+    },
+    {
+        text: "Invest in yourself. Your career is the engine of your wealth.",
+        author: "Paul Clitheroe"
+    },
+    {
+        text: "Beware of little expenses; a small leak will sink a great ship.",
+        author: "Benjamin Franklin"
+    },
+    {
+        text: "Financial freedom is available to those who learn about it and work for it.",
+        author: "Robert Kiyosaki"
+    },
+    {
+        text: "The more you learn, the more you earn.",
+        author: "Frank Clark"
+    },
+    {
+        text: "Success is not the key to happiness. Happiness is the key to success. If you love what you are doing, you will be successful.",
+        author: "Albert Schweitzer"
+    },
+    {
+        text: "Money is a terrible master but an excellent servant.",
+        author: "P.T. Barnum"
+    },
+    {
+        text: "Don't be afraid to give up the good to go for the great.",
+        author: "John D. Rockefeller"
+    },
+    {
+        text: "The only place where success comes before work is in the dictionary.",
+        author: "Vidal Sassoon"
+    },
+    {
+        text: "Formal education will make you a living; self-education will make you a fortune.",
+        author: "Jim Rohn"
+    },
+    {
+        text: "Never depend on a single income. Make an investment to create a second source.",
+        author: "Warren Buffett"
+    },
+    {
+        text: "The goal isn't more money. The goal is living life on your terms.",
+        author: "Chris Brogan"
+    },
+    {
+        text: "Every day is a new opportunity to change your financial story.",
+        author: "Suze Orman"
+    },
+    {
+        text: "The only limit to our realization of tomorrow will be our doubts of today.",
+        author: "Franklin D. Roosevelt"
+    },
+    {
+        text: "Risk comes from not knowing what you're doing.",
+        author: "Warren Buffett"
+    },
+    {
+        text: "You miss 100% of the shots you don't take.",
+        author: "Wayne Gretzky"
+    },
+    {
+        text: "A budget is telling your money where to go instead of wondering where it went.",
+        author: "Dave Ramsey"
+    },
+    {
+        text: "The future depends on what you do today.",
+        author: "Mahatma Gandhi"
+    },
+    {
+        text: "It's not about having lots of money. It's about having lots of options.",
+        author: "Chris Rock"
+    },
+    {
+        text: "Believe you can and you're halfway there.",
+        author: "Theodore Roosevelt"
+    },
+    {
+        text: "Don't let the fear of losing be greater than the excitement of winning.",
+        author: "Robert Kiyosaki"
+    },
+    {
+        text: "Wealth is the ability to fully experience life.",
+        author: "Henry David Thoreau"
+    },
+    {
+        text: "The only thing standing between you and your goal is the story you keep telling yourself as to why you can't achieve it.",
+        author: "Jordan Belfort"
+    }
+];
     // ... (rest of your quotes remain same)
 ];
 
@@ -461,4 +582,5 @@ window.addEventListener('resize', function() {
         symbol.style.left = `${Math.random() * 100}%`;
         symbol.style.top = `${Math.random() * 100}%`;
     });
+
 });
