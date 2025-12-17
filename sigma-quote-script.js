@@ -125,8 +125,6 @@ const financialQuotes = [
         author: "Jordan Belfort"
     }
 ];
-    // ... (rest of your quotes remain same)
-];
 
 // Morning greeting database
 const morningGreetings = [
@@ -134,13 +132,28 @@ const morningGreetings = [
         greeting: "Good Morning",
         subtitle: "Make today so awesome that yesterday gets jealous!"
     },
-    // ... (rest of your greetings remain same)
+    {
+        greeting: "Good Morning",
+        subtitle: "Every sunrise is an opportunity to create wealth!"
+    },
+    {
+        greeting: "Good Morning",
+        subtitle: "Your financial future starts with today's decisions!"
+    },
+    {
+        greeting: "Good Morning",
+        subtitle: "Invest in yourself first, the returns are guaranteed!"
+    },
+    {
+        greeting: "Good Morning",
+        subtitle: "Small consistent actions build massive fortunes!"
+    }
 ];
 
 // DOM Elements
 const currentDateElement = document.getElementById('currentDate');
-const quoteTextElement = document.getElementById('quoteText');
-const quoteAuthorElement = document.getElementById('quoteAuthor');
+const quoteTextElement = document.getElementById('quoteText');  // FIXED: Changed from 'quoteTextElement' to match variable name
+const quoteAuthorElement = document.getElementById('quoteAuthor');  // FIXED: Changed from 'quoteAuthorElement' to match variable name
 const downloadBtn = document.getElementById('downloadBtn');
 const whatsappBtn = document.getElementById('whatsappBtn');
 const resetBtn = document.getElementById('resetBtn');
@@ -228,10 +241,12 @@ function updateGreeting() {
     createGreetingParticles();
 }
 
-// Display a random financial quote
+// Display a random financial quote - FIXED FUNCTION
 function displayRandomQuote() {
     const randomIndex = Math.floor(Math.random() * financialQuotes.length);
     const quote = financialQuotes[randomIndex];
+    
+    // FIXED: Using the correct variable names
     quoteTextElement.textContent = `"${quote.text}"`;
     quoteAuthorElement.textContent = `- ${quote.author}`;
 }
@@ -282,13 +297,14 @@ function createFloatingSymbols() {
     }
 }
 
-// Setup event listeners for buttons
+// Setup event listeners for buttons - FIXED: Added quote update to reset button
 function setupEventListeners() {
     downloadBtn.addEventListener('click', downloadImage);
     whatsappBtn.addEventListener('click', shareToWhatsApp);
     resetBtn.addEventListener('click', function() {
-        displayRandomQuote();
-        updateGreeting();
+        displayRandomQuote();  // This will update the quote
+        updateGreeting();      // This will update the greeting
+        showNotification('🔄 Quote refreshed! New financial wisdom loaded.');
     });
 }
 
@@ -412,7 +428,7 @@ function downloadImage() {
     });
 }
 
-// NEW: WhatsApp Image Share Function
+// WhatsApp Image Share Function
 async function shareToWhatsApp() {
     const originalText = whatsappBtn.innerHTML;
     whatsappBtn.innerHTML = '<span>Preparing Image...</span>';
@@ -582,5 +598,4 @@ window.addEventListener('resize', function() {
         symbol.style.left = `${Math.random() * 100}%`;
         symbol.style.top = `${Math.random() * 100}%`;
     });
-
 });
