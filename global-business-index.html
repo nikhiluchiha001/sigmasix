@@ -3,84 +3,1072 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Global Business - Greeting Card</title>
-    <link rel="stylesheet" href="global-business-style.css">
+    <title>Good Morning Banner Generator</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a2a6c, #2c3e50);
+            color: #fff;
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            padding: 20px;
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.8rem;
+            background: linear-gradient(to right, #f8ff00, #3ad59f);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+        
+        .app-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+            justify-content: center;
+            align-items: flex-start;
+        }
+        
+        /* Banner Styles */
+        .banner-container {
+            flex: 1;
+            min-width: 500px;
+            max-width: 700px;
+            display: flex;
+            justify-content: center;
+        }
+        
+        .banner {
+            width: 100%;
+            max-width: 650px;
+            background: linear-gradient(145deg, #0c2461, #1e3799);
+            border-radius: 25px;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            position: relative;
+            border: 8px solid #f6b93b;
+            padding: 25px;
+        }
+        
+        /* Date Display - Transparent */
+        .date-display {
+            text-align: center;
+            margin-bottom: 5px;
+            padding: 0;
+            background: transparent;
+            border: none;
+            box-shadow: none;
+        }
+        
+        .current-date {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #f8ff00;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            padding: 0;
+            margin: 0;
+            display: inline-block;
+            background: transparent;
+        }
+        
+        /* Hidden time for functionality */
+        .datetime-hidden {
+            display: none;
+        }
+        
+        /* Banner Header with Dynamic Greeting */
+        .banner-header {
+            text-align: center;
+            padding: 5px 0;
+            margin-bottom: 15px;
+            position: relative;
+        }
+        
+        .banner-header h2 {
+            font-size: 3.2rem;
+            font-weight: 800;
+            color: #f8ff00; /* Fallback color for html2canvas */
+            text-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+            letter-spacing: 2px;
+            background: linear-gradient(to right, #f8ff00, #ff9a00);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            -webkit-text-fill-color: transparent; /* For better compatibility */
+        }
+        
+        .header-decoration {
+            height: 6px;
+            width: 80%;
+            margin: 10px auto;
+            background: linear-gradient(to right, transparent, #f6b93b, transparent);
+            border-radius: 3px;
+        }
+        
+        /* Banner Body with Live Quote Animation */
+        .banner-body {
+            position: relative;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            padding: 40px 30px;
+            min-height: 300px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+        
+        .quote-container {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            padding: 20px;
+            width: 100%;
+        }
+        
+        .financial-quote {
+            font-size: 1.8rem;
+            font-weight: 600;
+            line-height: 1.5;
+            color: #ffffff;
+            margin-bottom: 15px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .hindi-quote {
+            font-size: 1.8rem;
+            font-weight: 600;
+            line-height: 1.5;
+            color: #ffffff;
+            margin-bottom: 15px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .quote-author {
+            font-size: 1.2rem;
+            font-style: italic;
+            color: #f6b93b;
+            margin-top: 10px;
+            font-weight: 500;
+        }
+        
+        /* Animation Container - For Download Only */
+        .animation-container-download {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 1;
+            border-radius: 20px;
+            pointer-events: none;
+        }
+        
+        .download-animation-element {
+            position: absolute;
+            background: rgba(248, 255, 0, 0.05);
+            border-radius: 50%;
+        }
+        
+        /* Banner Footer with Fixed Image */
+        .banner-footer {
+            display: flex;
+            align-items: center;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            margin-top: 20px;
+        }
+        
+        .profile-image-container {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 4px solid #f6b93b;
+            overflow: hidden;
+            margin-right: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .profile-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            display: block;
+        }
+        
+        .profile-info {
+            flex: 1;
+        }
+        
+        .profile-name {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #f8ff00;
+            margin-bottom: 5px;
+        }
+        
+        .profile-title {
+            font-size: 1.2rem;
+            color: #ffffff;
+            margin-bottom: 5px;
+        }
+        
+        .profile-company {
+            font-size: 1.1rem;
+            color: #f6b93b;
+            font-weight: 600;
+        }
+        
+        /* Controls Panel */
+        .controls-panel {
+            flex: 1;
+            min-width: 300px;
+            max-width: 400px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .controls-panel h3 {
+            text-align: center;
+            margin-bottom: 25px;
+            font-size: 1.8rem;
+            color: #f8ff00;
+            border-bottom: 2px solid #f6b93b;
+            padding-bottom: 10px;
+        }
+        
+        .language-toggle {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 25px;
+            justify-content: center;
+        }
+        
+        .lang-btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            flex: 1;
+        }
+        
+        .lang-btn.active {
+            background: linear-gradient(to right, #f8ff00, #ff9a00);
+            color: #0c2461;
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(248, 255, 0, 0.3);
+        }
+        
+        .lang-btn:not(.active) {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+        
+        .lang-btn:hover:not(.active) {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-3px);
+        }
+        
+        .button-group {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .btn {
+            padding: 18px 25px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(to right, #f8ff00, #ff9a00);
+            color: #0c2461;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(248, 255, 0, 0.3);
+        }
+        
+        .btn-secondary {
+            background: linear-gradient(to right, #3ad59f, #1e90ff);
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(58, 213, 159, 0.3);
+        }
+        
+        .quote-counter {
+            text-align: center;
+            font-size: 1.2rem;
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            color: #f6b93b;
+        }
+        
+        .instructions {
+            margin-top: 30px;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 15px;
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+        
+        .instructions h4 {
+            color: #f8ff00;
+            margin-bottom: 10px;
+            font-size: 1.3rem;
+        }
+        
+        .instructions ul {
+            padding-left: 20px;
+        }
+        
+        .instructions li {
+            margin-bottom: 8px;
+        }
+        
+        /* Footer */
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            width: 100%;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 900px) {
+            .app-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .banner-container, .controls-panel {
+                min-width: 100%;
+            }
+            
+            .banner {
+                max-width: 100%;
+            }
+            
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .banner-header h2 {
+                font-size: 2.5rem;
+            }
+            
+            .financial-quote, .hindi-quote {
+                font-size: 1.5rem;
+            }
+            
+            .current-date {
+                font-size: 1.3rem;
+            }
+        }
+        
+        @media (max-width: 600px) {
+            .banner {
+                padding: 15px;
+            }
+            
+            .banner-header h2 {
+                font-size: 2rem;
+            }
+            
+            .financial-quote, .hindi-quote {
+                font-size: 1.3rem;
+            }
+            
+            .current-date {
+                font-size: 1.1rem;
+            }
+            
+            .profile-image-container {
+                width: 80px;
+                height: 80px;
+            }
+            
+            .profile-name {
+                font-size: 1.5rem;
+            }
+            
+            .btn, .lang-btn {
+                padding: 15px 20px;
+                font-size: 1.1rem;
+            }
+        }
+    </style>
 </head>
 <body>
-    <!-- Navigation Bar -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <div class="nav-logo">
-                <img src="global-business.png" alt="Global Business Logo">
-                <span>Global Business</span>
-            </div>
-            <div class="nav-menu">
-                <a href="sigma-quote.html" class="nav-link">Financial Quotes</a>
-                <a href="sankalp-shakti-index.html" class="nav-link">Sankalp Shakti</a>
-                <a href="global-business-index.html" class="nav-link active">Global Business</a>
-                <a href="sigma-rate-index.html" class="nav-link">Sigma Rate</a>
-            </div>
-        </div>
-    </nav>
-
-    <!-- Main Content -->
     <div class="container">
-        <!-- Greeting Card -->
-        <div class="card" id="greetingCard">
-            <div class="card-header">
-                <h1 id="greeting">Good Morning</h1>
-                <p id="currentDate">November 15, 2025</p>
-            </div>
-            
-            <div class="card-body">
-                <div class="quote-section">
-                    <div class="quote-icon">
-                        <i class="fas fa-quote-left"></i>
+        <h1><i class="fas fa-sun"></i> Good Morning Banner Generator</h1>
+        
+        <div class="app-container">
+            <!-- Banner Preview -->
+            <div class="banner-container">
+                <div class="banner" id="banner">
+                    <!-- Hidden time for functionality -->
+                    <div class="datetime-hidden" id="datetimeInfo"></div>
+                    
+                    <!-- Visible Date Display - TRANSPARENT -->
+                    <div class="date-display">
+                        <div class="current-date" id="currentDate">January 13, 2026</div>
                     </div>
-                    <p id="quoteText">The stock market is filled with individuals who know the price of everything, but the value of nothing.</p>
-                    <div class="quote-icon right">
-                        <i class="fas fa-quote-right"></i>
+                    
+                    <!-- Banner Header with Dynamic Greeting -->
+                    <div class="banner-header">
+                        <h2 id="dynamicGreeting">Good Morning</h2>
+                        <div class="header-decoration"></div>
                     </div>
-                </div>
-                
-                <div class="profile-section">
-                    <div class="profile-blue-wrapper">
-                        <div class="profile-image">
-                            <img src="raj.png" alt="Rajesh Mishra">
+                    
+                    <!-- Banner Body with Quote -->
+                    <div class="banner-body">
+                        <!-- Animation container for download (hidden in live view) -->
+                        <div class="animation-container-download" id="animationContainerDownload" style="display: none;">
+                            <!-- Static animation elements will be added here for download -->
                         </div>
-                        <div class="profile-info-wrapper">
-                            <div class="profile-info">
-                                <h3>Rajesh Mishra</h3>
-                                <p>Founder & CEO 
-                                 <br>  Global Business | Sigma Six</p>
+                        
+                        <div class="quote-container">
+                            <div class="financial-quote" id="quoteText">
+                                The stock market is a device for transferring money from the impatient to the patient.
+                            </div>
+                            <div class="hindi-quote" id="hindiQuoteText" style="display: none;">
+                                शेयर बाजार अधीर लोगों से धन को धैर्यवान लोगों तक पहुंचाने का एक उपकरण है।
+                            </div>
+                            <div class="quote-author" id="quoteAuthor">
+                                - Warren Buffett
                             </div>
                         </div>
                     </div>
+                    
+                    <!-- Banner Footer with Fixed Image -->
+                    <div class="banner-footer">
+                        <div class="profile-image-container">
+                            <img src="raj.png" alt="Rajesh Mishra" class="profile-image" id="profileImage" crossorigin="anonymous" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=200&q=80'">
+                        </div>
+                        <div class="profile-info">
+                            <div class="profile-name">Rajesh Mishra</div>
+                            <div class="profile-title">Founder & CEO</div>
+                            <div class="profile-company">Global Business | Sigma Six</div>
+                        </div>
+                    </div>
                 </div>
-
-                <!-- Buttons - Image ke niche -->
-                <div class="card-footer">
-                    <button id="refreshQuote" class="btn">
-                        <i class="fas fa-sync-alt"></i> New Quote
+            </div>
+            
+            <!-- Controls Panel -->
+            <div class="controls-panel">
+                <h3><i class="fas fa-cogs"></i> Controls</h3>
+                
+                <!-- Language Toggle -->
+                <div class="language-toggle">
+                    <button class="lang-btn active" id="englishBtn">
+                        <i class="fas fa-language"></i> English
                     </button>
-                    <button id="downloadCard" class="btn">
-                        <i class="fas fa-download"></i> Download
+                    <button class="lang-btn" id="hindiBtn">
+                        <i class="fas fa-language"></i> हिंदी
                     </button>
-                    <button id="shareWhatsApp" class="btn whatsapp-btn">
-                        <i class="fab fa-whatsapp"></i> Share Image
+                </div>
+                
+                <div class="button-group">
+                    <button class="btn btn-primary" id="updateQuoteBtn">
+                        <i class="fas fa-sync-alt"></i> New Quote & Animation
                     </button>
+                    
+                    <button class="btn btn-secondary" id="downloadBtn">
+                        <i class="fas fa-download"></i> Download Banner
+                    </button>
+                </div>
+                
+                <div class="quote-counter">
+                    <i class="fas fa-quote-right"></i> Quote <span id="currentQuote">1</span> of 60
+                </div>
+                
+                <div class="instructions">
+                    <h4><i class="fas fa-info-circle"></i> How to use:</h4>
+                    <ul>
+                        <li>Choose language: English or Hindi</li>
+                        <li>Click "New Quote & Animation" for new content</li>
+                        <li>Greeting changes automatically with time</li>
+                        <li>Live date display (format: 13 January 2026)</li>
+                        <li>Download banner for social media or motivation</li>
+                    </ul>
                 </div>
             </div>
         </div>
+        
+        <footer>
+            <p>Good Morning Banner Generator | Created for Rajesh Mishra | Image: raj.png</p>
+        </footer>
     </div>
 
-    <!-- Include html2canvas library -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-    <script src="global-business-script.js"></script>
+    <!-- Include html2canvas for screenshot functionality -->
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    
+    <script>
+        // Financial quotes database (60 English quotes)
+        const englishQuotes = [
+            {text: "The stock market is a device for transferring money from the impatient to the patient.", author: "Warren Buffett"},
+            {text: "Risk comes from not knowing what you're doing.", author: "Warren Buffett"},
+            {text: "In investing, what is comfortable is rarely profitable.", author: "Robert Arnott"},
+            {text: "The four most dangerous words in investing are: 'this time it's different.'", author: "Sir John Templeton"},
+            {text: "If you don't find a way to make money while you sleep, you will work until you die.", author: "Warren Buffett"},
+            {text: "The best investment you can make is in yourself.", author: "Warren Buffett"},
+            {text: "Price is what you pay. Value is what you get.", author: "Warren Buffett"},
+            {text: "Do not save what is left after spending, but spend what is left after saving.", author: "Warren Buffett"},
+            {text: "Never depend on a single income. Make an investment to create a second source.", author: "Warren Buffett"},
+            {text: "The goal of a successful trader is to make the best trades. Money is secondary.", author: "Alexander Elder"},
+            {text: "Invest for the long haul. Don't get too greedy and don't get too scared.", author: "Shelby M.C. Davis"},
+            {text: "We simply attempt to be fearful when others are greedy and to be greedy only when others are fearful.", author: "Warren Buffett"},
+            {text: "The biggest risk of all is not taking one.", author: "Mellody Hobson"},
+            {text: "Bottoms in the investment world don't end with four-year lows; they end with 10- or 15-year lows.", author: "Jim Rogers"},
+            {text: "I will tell you how to become rich. Close the doors. Be fearful when others are greedy. Be greedy when others are fearful.", author: "Warren Buffett"},
+            {text: "Financial peace isn't the acquisition of stuff. It's learning to live on less than you make.", author: "Dave Ramsey"},
+            {text: "Money is a terrible master but an excellent servant.", author: "P.T. Barnum"},
+            {text: "It's not how much money you make, but how much money you keep.", author: "Robert Kiyosaki"},
+            {text: "Every dollar you save is a dollar you earn.", author: "Suze Orman"},
+            {text: "Don't work for money, make it work for you.", author: "Robert Kiyosaki"},
+            {text: "The secret to getting ahead is getting started.", author: "Mark Twain"},
+            {text: "Formal education will make you a living; self-education will make you a fortune.", author: "Jim Rohn"},
+            {text: "The more you learn, the more you earn.", author: "Frank Clark"},
+            {text: "Never spend your money before you have it.", author: "Thomas Jefferson"},
+            {text: "A budget is telling your money where to go instead of wondering where it went.", author: "Dave Ramsey"},
+            {text: "Beware of little expenses; a small leak will sink a great ship.", author: "Benjamin Franklin"},
+            {text: "The habit of saving is itself an education; it fosters every virtue, teaches self-denial, cultivates the sense of order.", author: "T.T. Munger"},
+            {text: "Money grows on the tree of persistence.", author: "Japanese Proverb"},
+            {text: "An investment in knowledge pays the best interest.", author: "Benjamin Franklin"},
+            {text: "The safest way to double your money is to fold it over and put it in your pocket.", author: "Kin Hubbard"},
+            {text: "Invest in yourself. Your career is the engine of your wealth.", author: "Paul Clitheroe"},
+            {text: "The stock market is filled with individuals who know the price of everything, but the value of nothing.", author: "Philip Fisher"},
+            {text: "The individual investor should act consistently as an investor and not as a speculator.", author: "Ben Graham"},
+            {text: "In the business world, the rearview mirror is always clearer than the windshield.", author: "Warren Buffett"},
+            {text: "The best time to plant a tree was 20 years ago. The second best time is now.", author: "Chinese Proverb"},
+            {text: "Do not put all your eggs in one basket.", author: "Miguel de Cervantes"},
+            {text: "Compound interest is the eighth wonder of the world. He who understands it, earns it; he who doesn't, pays it.", author: "Albert Einstein"},
+            {text: "Money is only a tool. It will take you wherever you wish, but it will not replace you as the driver.", author: "Ayn Rand"},
+            {text: "It's good to have money and the things that money can buy, but it's good, too, to check up once in a while and make sure you haven't lost the things that money can't buy.", author: "George Lorimer"},
+            {text: "Wealth is the ability to fully experience life.", author: "Henry David Thoreau"},
+            {text: "The way to wealth is as plain as the way to market. It depends chiefly on two words: industry and frugality.", author: "Benjamin Franklin"},
+            {text: "Financial freedom is freedom from fear.", author: "Robert Kiyosaki"},
+            {text: "Opportunities come infrequently. When it rains gold, put out the bucket, not the thimble.", author: "Warren Buffett"},
+            {text: "You must gain control over your money or the lack of it will forever control you.", author: "Dave Ramsey"},
+            {text: "If you want to be financially free, you need to become a different person than you are today.", author: "Robert Kiyosaki"},
+            {text: "The real measure of your wealth is how much you'd be worth if you lost all your money.", author: "Anonymous"},
+            {text: "Investing should be more like watching paint dry or watching grass grow. If you want excitement, take $800 and go to Las Vegas.", author: "Paul Samuelson"},
+            {text: "The most important quality for an investor is temperament, not intellect.", author: "Warren Buffett"},
+            {text: "Someone's sitting in the shade today because someone planted a tree a long time ago.", author: "Warren Buffett"},
+            {text: "The best investment on earth is earth.", author: "Louis Glickman"},
+            {text: "Time is more valuable than money. You can get more money, but you cannot get more time.", author: "Jim Rohn"},
+            {text: "The goal isn't more money. The goal is living life on your terms.", author: "Chris Brogan"},
+            {text: "Never invest in a business you cannot understand.", author: "Warren Buffett"},
+            {text: "Buy when everyone else is selling and hold until everyone else is buying.", author: "J. Paul Getty"},
+            {text: "The money you make is a symbol of the value you create.", author: "Idowu Koyenikan"},
+            {text: "You don't need to be a genius to invest well. You need discipline and patience.", author: "John Bogle"},
+            {text: "The stock market is a giant distraction from the business of investing.", author: "John Bogle"},
+            {text: "Spend each day trying to be a little wiser than you were when you woke up.", author: "Charlie Munger"},
+            {text: "We don't have to be smarter than the rest. We have to be more disciplined than the rest.", author: "Warren Buffett"}
+        ];
+
+        // Hindi quotes database (60 Hindi translations)
+        const hindiQuotes = [
+            {text: "शेयर बाजार अधीर लोगों से धन को धैर्यवान लोगों तक पहुंचाने का एक उपकरण है।", author: "वॉरेन बफेट"},
+            {text: "जोखिम तब आता है जब आप नहीं जानते कि आप क्या कर रहे हैं।", author: "वॉरेन बफेट"},
+            {text: "निवेश में, जो आरामदायक है वह शायद ही कभी लाभदायक होता है।", author: "रॉबर्ट अर्नोट"},
+            {text: "निवेश में चार सबसे खतरनाक शब्द हैं: 'इस बार यह अलग है।'", author: "सर जॉन टेम्पलटन"},
+            {text: "यदि आप सोते समय पैसा कमाने का रास्ता नहीं ढूंढते, तो आप मरते दम तक काम करते रहेंगे।", author: "वॉरेन बफेट"},
+            {text: "सबसे अच्छा निवेश आप अपने आप में कर सकते हैं।", author: "वॉरेन बफेट"},
+            {text: "कीमत वह है जो आप देते हैं। मूल्य वह है जो आपको मिलता है।", author: "वॉरेन बफेट"},
+            {text: "खर्च करने के बाद जो बचा है उसे बचाएं नहीं, बल्कि बचत के बाद जो बचा है उसे खर्च करें।", author: "वॉरेन बफेट"},
+            {text: "कभी भी एकल आय पर निर्भर न रहें। दूसरा स्रोत बनाने के लिए निवेश करें।", author: "वॉरेन बफेट"},
+            {text: "एक सफल व्यापारी का लक्ष्य सबसे अच्छे ट्रेड बनाना है। पैसा गौण है।", author: "अलेक्जेंडर एल्डर"},
+            {text: "लंबे समय के लिए निवेश करें। बहुत लालची न बनें और न ही बहुत डरें।", author: "शेल्बी एम.सी. डेविस"},
+            {text: "हम केवल तब भयभीत होने का प्रयास करते हैं जब दूसरे लालची होते हैं और केवल तभी लालची होते हैं जब दूसरे भयभीत होते हैं।", author: "वॉरेन बफेट"},
+            {text: "सबसे बड़ा जोखिम कोई जोखिम न लेना है।", author: "मेलोडी होब्सन"},
+            {text: "निवेश की दुनिया में तल चार साल के निचले स्तर पर समाप्त नहीं होते; वे 10 या 15 साल के निचले स्तर पर समाप्त होते हैं।", author: "जिम रोजर्स"},
+            {text: "मैं आपको बताऊंगा कि अमीर कैसे बनें। दरवाजे बंद करें। जब दूसरे लालची हों तो डरें। जब दूसरे डरे हुए हों तो लालची बनें।", author: "वॉरेन बफेट"},
+            {text: "वित्तीय शांति सामान हासिल करना नहीं है। यह सीखना है कि आप जितना कमाते हैं उससे कम पर कैसे जीना है।", author: "डेव रैमसे"},
+            {text: "पैसा एक भयानक स्वामी लेकिन एक उत्कृष्ट सेवक है।", author: "पी.टी. बार्नम"},
+            {text: "यह महत्वपूर्ण नहीं है कि आप कितना पैसा कमाते हैं, बल्कि यह है कि आप कितना पैसा बचाते हैं।", author: "रॉबर्ट कियोसाकी"},
+            {text: "आप जो हर डॉलर बचाते हैं वह एक डॉलर है जो आप कमाते हैं।", author: "सूज ऑरमैन"},
+            {text: "पैसे के लिए काम न करें, इसे अपने लिए काम करवाएं।", author: "रॉबर्ट कियोसाकी"},
+            {text: "आगे बढ़ने का रहस्य शुरुआत करना है।", author: "मार्क ट्वेन"},
+            {text: "औपचारिक शिक्षा आपको जीविका देगी; स्व-शिक्षा आपको भाग्य देगी।", author: "जिम रोहन"},
+            {text: "आप जितना अधिक सीखते हैं, उतना ही अधिक कमाते हैं।", author: "फ्रैंक क्लार्क"},
+            {text: "कभी भी पैसा आने से पहले उसे खर्च न करें।", author: "थॉमस जेफरसन"},
+            {text: "बजट आपके पैसे को यह बताना है कि कहां जाना है बजाय इसके कि वह कहां गया।", author: "डेव रैमसे"},
+            {text: "छोटे खर्चों से सावधान रहें; एक छोटी सी रिसाव एक महान जहाज को डुबो सकती है।", author: "बेंजामिन फ्रैंकलिन"},
+            {text: "बचत की आदत अपने आप में एक शिक्षा है; यह हर गुण को बढ़ावा देती है, आत्म-त्याग सिखाती है, व्यवस्था की भावना विकसित करती है।", author: "टी.टी. मंगर"},
+            {text: "पैसा दृढ़ता के पेड़ पर उगता है।", author: "जापानी कहावत"},
+            {text: "ज्ञान में निवेश सबसे अच्छा ब्याज देता है।", author: "बेंजामिन फ्रैंकलिन"},
+            {text: "अपने पैसे को दोगुना करने का सबसे सुरक्षित तरीका है इसे मोड़कर अपनी जेब में रख लेना।", author: "किन हबर्ड"},
+            {text: "अपने आप में निवेश करें। आपका करियर आपकी संपत्ति का इंजन है।", author: "पॉल क्लिथरो"},
+            {text: "शेयर बाजार उन व्यक्तियों से भरा है जो हर चीज की कीमत जानते हैं, लेकिन किसी चीज का मूल्य नहीं।", author: "फिलिप फिशर"},
+            {text: "व्यक्तिगत निवेशक को लगातार एक निवेशक के रूप में कार्य करना चाहिए न कि सट्टेबाज के रूप में।", author: "बेन ग्राहम"},
+            {text: "व्यापार की दुनिया में, रियरव्यू मिरर हमेशा विंडशील्ड से स्पष्ट होती है।", author: "वॉरेन बफेट"},
+            {text: "पेड़ लगाने का सबसे अच्छा समय 20 साल पहले था। दूसरा सबसे अच्छा समय अब है।", author: "चीनी कहावत"},
+            {text: "सभी अंडे एक ही टोकरी में न रखें।", author: "मिगुएल डे सर्वेंट्स"},
+            {text: "चक्रवृद्धि ब्याज दुनिया का आठवां आश्चर्य है। जो इसे समझता है, वह इसे कमाता है; जो नहीं समझता, वह इसे चुकाता है।", author: "अल्बर्ट आइंस्टीन"},
+            {text: "पैसा केवल एक उपकरण है। यह आपको जहां चाहें ले जाएगा, लेकिन यह आपकी जगह चालक नहीं बनेगा।", author: "ऐन रैंड"},
+            {text: "पैसा और वे चीजें जो पैसे से खरीदी जा सकती हैं, अच्छी हैं, लेकिन यह भी अच्छा है कि कभी-कभी जांच कर लें कि कहीं आपने वे चीजें तो नहीं खो दी जो पैसे से नहीं खरीदी जा सकतीं।", author: "जॉर्ज लोरिमर"},
+            {text: "धन पूरी तरह से जीवन का अनुभव करने की क्षमता है।", author: "हेनरी डेविड थोरो"},
+            {text: "धन का रास्ता बाजार के रास्ते की तरह स्पष्ट है। यह मुख्य रूप से दो शब्दों पर निर्भर करता है: उद्योग और मितव्ययिता।", author: "बेंजामिन फ्रैंकलिन"},
+            {text: "वित्तीय स्वतंत्रता भय से मुक्ति है।", author: "रॉबर्ट कियोसाकी"},
+            {text: "अवसर कम ही आते हैं। जब सोना बरसता है, तो थाली नहीं, बाल्टी निकालें।", author: "वॉरेन बफेट"},
+            {text: "आपको अपने पैसे पर नियंत्रण रखना होगा या इसकी कमी हमेशा आपको नियंत्रित करेगी।", author: "डेव रैमसे"},
+            {text: "यदि आप वित्तीय रूप से स्वतंत्र होना चाहते हैं, तो आपको आज से एक अलग व्यक्ति बनना होगा।", author: "रॉबर्ट कियोसाकी"},
+            {text: "आपकी संपत्ति का वास्तविक माप यह है कि यदि आप अपना सारा पैसा खो देते हैं तो आपका कितना मूल्य होगा।", author: "अनाम"},
+            {text: "निवेश पेंट सूखने या घास उगने देखने जैसा होना चाहिए। यदि आप उत्साह चाहते हैं, तो $800 लें और लास वेगास जाएं।", author: "पॉल सैमुएलसन"},
+            {text: "एक निवेशक के लिए सबसे महत्वपूर्ण गुण स्वभाव है, बुद्धि नहीं।", author: "वॉरेन बफेट"},
+            {text: "आज कोई छाया में बैठा है क्योंकि किसी ने बहुत पहले एक पेड़ लगाया था।", author: "वॉरेन बफेट"},
+            {text: "पृथ्वी पर सबसे अच्छा निवेश पृथ्वी है।", author: "लुई ग्लिकमैन"},
+            {text: "समय पैसे से अधिक मूल्यवान है। आप अधिक पैसा प्राप्त कर सकते हैं, लेकिन आप अधिक समय नहीं प्राप्त कर सकते।", author: "जिम रोहन"},
+            {text: "लक्ष्य अधिक पैसा नहीं है। लक्ष्य अपनी शर्तों पर जीवन जीना है।", author: "क्रिस ब्रोगन"},
+            {text: "कभी भी ऐसे व्यवसाय में निवेश न करें जिसे आप नहीं समझ सकते।", author: "वॉरेन बफेट"},
+            {text: "खरीदें जब हर कोई बेच रहा हो और तब तक रोकें जब तक हर कोई खरीद न रहा हो।", author: "जे. पॉल गेटी"},
+            {text: "आप जो पैसा कमाते हैं वह आपके द्वारा बनाए गए मूल्य का प्रतीक है।", author: "इडोवु कोयेनिकन"},
+            {text: "अच्छी तरह से निवेश करने के लिए आपको प्रतिभाशाली होने की आवश्यकता नहीं है। आपको अनुशासन और धैर्य की आवश्यकता है।", author: "जॉन बोगल"},
+            {text: "शेयर बाजार निवेश के व्यवसाय से एक विशाल विचलन है।", author: "जॉन बोगल"},
+            {text: "प्रत्येक दिन को इस प्रकार व्यतीत करें कि आप जागने के समय से थोड़ा अधिक बुद्धिमान बन जाएं।", author: "चार्ली मंगर"},
+            {text: "हमें बाकियों से अधिक बुद्धिमान होने की आवश्यकता नहीं है। हमें बाकियों से अधिक अनुशासित होने की आवश्यकता है।", author: "वॉरेन बफेट"},
+            {text: "बचत एक आदत है, एक घटना नहीं। इसे नियमित रूप से करें।", author: "जॉन बोगल"},
+            {text: "अपने पैसे को काम पर लगाएं, ताकि आप काम न करना पड़े।", author: "जिम रोहन"}
+        ];
+
+        // DOM Elements
+        const quoteTextElement = document.getElementById('quoteText');
+        const hindiQuoteTextElement = document.getElementById('hindiQuoteText');
+        const quoteAuthorElement = document.getElementById('quoteAuthor');
+        const updateQuoteBtn = document.getElementById('updateQuoteBtn');
+        const downloadBtn = document.getElementById('downloadBtn');
+        const animationContainerDownload = document.getElementById('animationContainerDownload');
+        const currentQuoteElement = document.getElementById('currentQuote');
+        const banner = document.getElementById('banner');
+        const profileImage = document.getElementById('profileImage');
+        const dynamicGreeting = document.getElementById('dynamicGreeting');
+        const currentDateElement = document.getElementById('currentDate');
+        const datetimeInfo = document.getElementById('datetimeInfo');
+        const englishBtn = document.getElementById('englishBtn');
+        const hindiBtn = document.getElementById('hindiBtn');
+
+        // Variables
+        let currentQuoteIndex = 0;
+        let currentLanguage = 'english';
+        let currentAnimationType = 0;
+
+        // Initialize with a random quote
+        function initializeApp() {
+            currentQuoteIndex = Math.floor(Math.random() * englishQuotes.length);
+            displayQuote(currentQuoteIndex);
+            updateGreeting();
+            updateDate();
+            updateDateTime();
+            
+            // Update greeting and date every minute
+            setInterval(updateGreeting, 60000);
+            setInterval(updateDate, 60000);
+            setInterval(updateDateTime, 1000);
+        }
+
+        // Update greeting based on time
+        function updateGreeting() {
+            const now = new Date();
+            const hour = now.getHours();
+            let greeting = "Good Morning";
+            
+            if (hour >= 12 && hour < 17) {
+                greeting = "Good Afternoon";
+            } else if (hour >= 17 || hour < 5) {
+                greeting = "Good Evening";
+            } else if (hour >= 5 && hour < 12) {
+                greeting = "Good Morning";
+            }
+            
+            dynamicGreeting.textContent = greeting;
+        }
+
+        // Update live date in format: 13 January 2026
+        function updateDate() {
+            const now = new Date();
+            const day = now.getDate();
+            const month = now.toLocaleString('en-US', { month: 'long' });
+            const year = now.getFullYear();
+            
+            // Format: 13 January 2026
+            const dateString = `${day} ${month} ${year}`;
+            currentDateElement.textContent = dateString;
+        }
+
+        // Update hidden date/time for functionality
+        function updateDateTime() {
+            const now = new Date();
+            datetimeInfo.textContent = now.toLocaleString();
+        }
+
+        // Display quote by index based on current language
+        function displayQuote(index) {
+            if (currentLanguage === 'english') {
+                const quote = englishQuotes[index];
+                quoteTextElement.textContent = quote.text;
+                quoteAuthorElement.textContent = `- ${quote.author}`;
+                quoteTextElement.style.display = 'block';
+                hindiQuoteTextElement.style.display = 'none';
+            } else {
+                const quote = hindiQuotes[index];
+                hindiQuoteTextElement.textContent = quote.text;
+                quoteAuthorElement.textContent = `- ${quote.author}`;
+                quoteTextElement.style.display = 'none';
+                hindiQuoteTextElement.style.display = 'block';
+            }
+            currentQuoteElement.textContent = index + 1;
+        }
+
+        // Update to a new random quote
+        function updateQuote() {
+            // Get a random quote index different from current
+            let newIndex;
+            do {
+                newIndex = Math.floor(Math.random() * englishQuotes.length);
+            } while (newIndex === currentQuoteIndex && englishQuotes.length > 1);
+            
+            currentQuoteIndex = newIndex;
+            displayQuote(currentQuoteIndex);
+        }
+
+        // Create static animation elements for download
+        function createDownloadAnimation() {
+            animationContainerDownload.innerHTML = '';
+            animationContainerDownload.style.display = 'block';
+            
+            const colors = ['#f8ff00', '#3ad59f', '#1e3799', '#f6b93b', '#ff9a00'];
+            
+            // Create floating particles
+            for (let i = 0; i < 25; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('download-animation-element');
+                
+                const size = Math.random() * 10 + 5;
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                const left = Math.random() * 100;
+                const top = Math.random() * 100;
+                
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.backgroundColor = color;
+                particle.style.borderRadius = '50%';
+                particle.style.left = `${left}%`;
+                particle.style.top = `${top}%`;
+                particle.style.opacity = Math.random() * 0.1 + 0.03;
+                
+                animationContainerDownload.appendChild(particle);
+            }
+            
+            // Create floating lines
+            for (let i = 0; i < 12; i++) {
+                const line = document.createElement('div');
+                line.classList.add('download-animation-element');
+                
+                const width = Math.random() * 100 + 50;
+                const height = Math.random() * 3 + 1;
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                const angle = Math.random() * 360;
+                const left = Math.random() * 100;
+                const top = Math.random() * 100;
+                
+                line.style.width = `${width}px`;
+                line.style.height = `${height}px`;
+                line.style.backgroundColor = color;
+                line.style.left = `${left}%`;
+                line.style.top = `${top}%`;
+                line.style.transform = `rotate(${angle}deg)`;
+                line.style.opacity = Math.random() * 0.08 + 0.02;
+                line.style.borderRadius = '2px';
+                
+                animationContainerDownload.appendChild(line);
+            }
+            
+            // Create floating symbols
+            const symbols = ['💰', '📈', '💹', '💼', '🏦'];
+            for (let i = 0; i < 8; i++) {
+                const symbol = document.createElement('div');
+                symbol.classList.add('download-animation-element');
+                
+                const size = Math.random() * 40 + 20;
+                const symbolText = symbols[Math.floor(Math.random() * symbols.length)];
+                const left = Math.random() * 100;
+                const top = Math.random() * 100;
+                
+                symbol.innerHTML = symbolText;
+                symbol.style.fontSize = `${size}px`;
+                symbol.style.left = `${left}%`;
+                symbol.style.top = `${top}%`;
+                symbol.style.opacity = Math.random() * 0.08 + 0.02;
+                symbol.style.transform = `rotate(${Math.random() * 360}deg)`;
+                
+                animationContainerDownload.appendChild(symbol);
+            }
+        }
+
+        // Download banner as image - FIXED VERSION with transparent Good Afternoon
+        function downloadBanner() {
+            const originalText = downloadBtn.innerHTML;
+            downloadBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating Image...';
+            downloadBtn.disabled = true;
+            
+            // Store current state
+            const currentGreeting = dynamicGreeting.textContent;
+            const currentDate = currentDateElement.textContent;
+            const currentQuote = currentLanguage === 'english' ? quoteTextElement.textContent : hindiQuoteTextElement.textContent;
+            const currentAuthor = quoteAuthorElement.textContent;
+            
+            // Store original greeting styles for restoration
+            const originalGreetingStyle = {
+                background: dynamicGreeting.style.background,
+                webkitBackgroundClip: dynamicGreeting.style.webkitBackgroundClip,
+                backgroundClip: dynamicGreeting.style.backgroundClip,
+                color: dynamicGreeting.style.color,
+                webkitTextFillColor: dynamicGreeting.style.webkitTextFillColor
+            };
+            
+            // For download: Change to solid yellow color to avoid html2canvas gradient issues
+            dynamicGreeting.style.background = 'none';
+            dynamicGreeting.style.webkitBackgroundClip = 'border-box';
+            dynamicGreeting.style.backgroundClip = 'border-box';
+            dynamicGreeting.style.color = '#f8ff00';
+            dynamicGreeting.style.webkitTextFillColor = '#f8ff00';
+            
+            // Create static animations for download
+            createDownloadAnimation();
+            
+            // Force profile image to load
+            profileImage.style.display = 'block';
+            profileImage.style.visibility = 'visible';
+            profileImage.style.opacity = '1';
+            
+            // Ensure all text is visible
+            dynamicGreeting.style.visibility = 'visible';
+            dynamicGreeting.style.opacity = '1';
+            currentDateElement.style.visibility = 'visible';
+            currentDateElement.style.opacity = '1';
+            quoteTextElement.style.visibility = 'visible';
+            quoteTextElement.style.opacity = '1';
+            hindiQuoteTextElement.style.visibility = 'visible';
+            hindiQuoteTextElement.style.opacity = '1';
+            quoteAuthorElement.style.visibility = 'visible';
+            quoteAuthorElement.style.opacity = '1';
+            
+            // Force a reflow
+            banner.offsetHeight;
+            
+            // Wait for everything to render
+            setTimeout(() => {
+                html2canvas(banner, {
+                    backgroundColor: null,
+                    scale: 3, // High resolution
+                    useCORS: true,
+                    allowTaint: true,
+                    logging: false,
+                    onclone: function(clonedDocument, clonedElement) {
+                        // Ensure all elements are visible in clone
+                        const clonedGreeting = clonedDocument.getElementById('dynamicGreeting');
+                        const clonedDate = clonedDocument.getElementById('currentDate');
+                        const clonedQuote = clonedDocument.getElementById('quoteText');
+                        const clonedHindiQuote = clonedDocument.getElementById('hindiQuoteText');
+                        const clonedAuthor = clonedDocument.getElementById('quoteAuthor');
+                        const clonedProfileImage = clonedDocument.getElementById('profileImage');
+                        const clonedAnimationContainer = clonedDocument.getElementById('animationContainerDownload');
+                        
+                        // Set all text with solid yellow color for html2canvas compatibility
+                        if (clonedGreeting) {
+                            clonedGreeting.textContent = currentGreeting;
+                            clonedGreeting.style.visibility = 'visible';
+                            clonedGreeting.style.opacity = '1';
+                            clonedGreeting.style.background = 'none';
+                            clonedGreeting.style.color = '#f8ff00';
+                            clonedGreeting.style.webkitBackgroundClip = 'border-box';
+                            clonedGreeting.style.backgroundClip = 'border-box';
+                            clonedGreeting.style.webkitTextFillColor = '#f8ff00';
+                        }
+                        
+                        if (clonedDate) {
+                            clonedDate.textContent = currentDate;
+                            clonedDate.style.visibility = 'visible';
+                            clonedDate.style.opacity = '1';
+                            clonedDate.style.color = '#f8ff00';
+                        }
+                        
+                        if (clonedQuote) {
+                            clonedQuote.textContent = currentQuote;
+                            clonedQuote.style.visibility = 'visible';
+                            clonedQuote.style.opacity = '1';
+                        }
+                        
+                        if (clonedHindiQuote) {
+                            clonedHindiQuote.textContent = currentQuote;
+                            clonedHindiQuote.style.visibility = 'visible';
+                            clonedHindiQuote.style.opacity = '1';
+                        }
+                        
+                        if (clonedAuthor) {
+                            clonedAuthor.textContent = currentAuthor;
+                            clonedAuthor.style.visibility = 'visible';
+                            clonedAuthor.style.opacity = '1';
+                        }
+                        
+                        if (clonedProfileImage) {
+                            clonedProfileImage.style.visibility = 'visible';
+                            clonedProfileImage.style.opacity = '1';
+                            clonedProfileImage.crossOrigin = 'anonymous';
+                        }
+                        
+                        if (clonedAnimationContainer) {
+                            clonedAnimationContainer.style.display = 'block';
+                            clonedAnimationContainer.style.visibility = 'visible';
+                            clonedAnimationContainer.style.opacity = '1';
+                        }
+                        
+                        // Ensure banner body background is visible
+                        const clonedBannerBody = clonedDocument.querySelector('.banner-body');
+                        if (clonedBannerBody) {
+                            clonedBannerBody.style.background = 'rgba(255, 255, 255, 0.08)';
+                            clonedBannerBody.style.visibility = 'visible';
+                            clonedBannerBody.style.opacity = '1';
+                        }
+                    }
+                }).then(canvas => {
+                    // Convert to image
+                    const image = canvas.toDataURL('image/png', 1.0);
+                    
+                    // Create download link
+                    const link = document.createElement('a');
+                    const now = new Date();
+                    const dateStr = now.toISOString().split('T')[0];
+                    const greeting = currentGreeting.replace(/\s+/g, '-');
+                    link.download = `Banner-${greeting}-${dateStr}.png`;
+                    link.href = image;
+                    
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                    
+                    // Restore original greeting styles
+                    dynamicGreeting.style.background = originalGreetingStyle.background;
+                    dynamicGreeting.style.webkitBackgroundClip = originalGreetingStyle.webkitBackgroundClip;
+                    dynamicGreeting.style.backgroundClip = originalGreetingStyle.backgroundClip;
+                    dynamicGreeting.style.color = originalGreetingStyle.color;
+                    dynamicGreeting.style.webkitTextFillColor = originalGreetingStyle.webkitTextFillColor;
+                    
+                    // Clean up
+                    animationContainerDownload.style.display = 'none';
+                    animationContainerDownload.innerHTML = '';
+                    
+                    downloadBtn.innerHTML = originalText;
+                    downloadBtn.disabled = false;
+                    
+                    // Show success message
+                    alert('✅ Banner downloaded successfully!\n\nImage contains:\n• Date: ' + currentDate + '\n• Greeting: ' + currentGreeting + '\n• Quote: ' + currentQuote.substring(0, 50) + '...\n• Author: ' + currentAuthor + '\n• Profile image\n• All design elements');
+                    
+                }).catch(error => {
+                    console.error('Error generating image:', error);
+                    
+                    // Restore original styles
+                    dynamicGreeting.style.background = originalGreetingStyle.background;
+                    dynamicGreeting.style.webkitBackgroundClip = originalGreetingStyle.webkitBackgroundClip;
+                    dynamicGreeting.style.backgroundClip = originalGreetingStyle.backgroundClip;
+                    dynamicGreeting.style.color = originalGreetingStyle.color;
+                    dynamicGreeting.style.webkitTextFillColor = originalGreetingStyle.webkitTextFillColor;
+                    
+                    // Clean up
+                    animationContainerDownload.style.display = 'none';
+                    animationContainerDownload.innerHTML = '';
+                    
+                    downloadBtn.innerHTML = originalText;
+                    downloadBtn.disabled = false;
+                    
+                    alert('❌ Error downloading image. Please try again.');
+                });
+            }, 500);
+        }
+
+        // Switch language
+        function switchLanguage(lang) {
+            currentLanguage = lang;
+            
+            // Update button states
+            if (lang === 'english') {
+                englishBtn.classList.add('active');
+                hindiBtn.classList.remove('active');
+            } else {
+                hindiBtn.classList.add('active');
+                englishBtn.classList.remove('active');
+            }
+            
+            // Update quote display
+            displayQuote(currentQuoteIndex);
+        }
+
+        // Event Listeners
+        updateQuoteBtn.addEventListener('click', updateQuote);
+        downloadBtn.addEventListener('click', downloadBanner);
+        englishBtn.addEventListener('click', () => switchLanguage('english'));
+        hindiBtn.addEventListener('click', () => switchLanguage('hindi'));
+
+        // Initialize the application
+        window.addEventListener('DOMContentLoaded', () => {
+            initializeApp();
+        });
+    </script>
 </body>
-
 </html>
-
-
-
